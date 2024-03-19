@@ -1,13 +1,9 @@
 ﻿namespace TestProject1;
 
 public class ThrottledExecutor{
-    public Task<object> Invoke(IExecutable executable)
+    public Task Invoke(Action lambda)
     {
-        return executable.Execute();
+        lambda.Invoke();
+        return Task.CompletedTask;
     }
-}
-
-public interface IExecutable
-{
-    Task<object> Execute();
 }

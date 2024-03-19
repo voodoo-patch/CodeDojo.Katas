@@ -102,3 +102,7 @@ C:\Users\N19318\source\repos\ThrottleKata\TestProject1\bin\Debug\net8.0\Moq.dll
 C:\Users\N19318\source\repos\ThrottleKata\TestProject1\bin\Debug\net8.0\System.Diagnostics.EventLog.dll
 C:\Users\N19318\source\repos\ThrottleKata\TestProject1\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.Messages.dll
 C:\Users\N19318\source\repos\ThrottleKata\TestProject1\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.dll
+C:\Users\N19318\source\repos\ThrottleKata\TestProject1\bin\Debug\net8.0\FluentAssertions.dll
+C:\Users\N19318\source\repos\ThrottleKata\TestProject1\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+C:\Users\N19318\source\repos\ThrottleKata\TestProject1\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\N19318\source\repos\ThrottleKata\TestProject1\bin\Debug\net8.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
