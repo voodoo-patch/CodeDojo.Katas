@@ -5,7 +5,7 @@ namespace TestProject1;
 public class ThrottledExecutorTests
 {
     [Fact]
-    public async void Execute_WhenWithinThreshold_ExecuteIsExecuted()
+    public async void Invoke_ExecutableIsExecuted()
     {
         var executor = new ThrottledExecutor();
 
@@ -13,7 +13,7 @@ public class ThrottledExecutorTests
         mock
             .Setup(e => e.Execute())
             .Returns(() => Task.FromResult<object>("hello"));
-        await executor.Invoke(mock.Object);
+        var result = await executor.Invoke(mock.Object);
         
         mock.Verify(m => m.Execute(), Times.Once());
     }
