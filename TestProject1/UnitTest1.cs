@@ -8,7 +8,7 @@ public class ThrottledExecutorTests
     [Fact]
     public void Invoke_ActionWithoutReturnValue()
     {
-        var executor = new ThrottledExecutor();
+        var executor = new ThrottledExecutor(1);
 
         int counter = 0;
         executor.Invoke(() =>
@@ -23,7 +23,7 @@ public class ThrottledExecutorTests
     [Fact]
     public void Invoke_FunctionThatReturnsInt()
     {
-        var executor = new ThrottledExecutor();
+        var executor = new ThrottledExecutor(1);
 
         int counter = executor.Invoke(() => 1);
 
@@ -33,10 +33,25 @@ public class ThrottledExecutorTests
     [Fact]
     public void Invoke_FunctionThatReturnsString()
     {
-        var executor = new ThrottledExecutor();
+        var executor = new ThrottledExecutor(1);
 
-        string counter = executor.Invoke(() => "a string");
+        string result = executor.Invoke(() => "a string");
 
-        counter.Should().Be("a string");
+        result.Should().Be("a string");
+    }
+    
+    
+    [Fact]
+    public void Invoke_FunctionIsExecutedNoMoreThanOnce()
+    {
+        int threshold = 1;
+        var executor = new ThrottledExecutor(threshold);
+
+        int counter = 0;
+        executor.Invoke(() => counter++);
+        
+        executor.Invoking(e => e.Invoke(() => counter++))
+            .Should().Throw<ApplicationException>();
+        counter.Should().Be(1);
     }
 }
