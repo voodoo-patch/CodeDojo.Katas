@@ -6,13 +6,8 @@ public class ThrottledExecutor {
         lambda.Invoke();
     }
     
-    public int Invoke(Func<int> lambda)
+    public T Invoke<T>(Func<T> lambda)
     {
         return lambda.Invoke();
     }
-    
-    // public Task<T> Invoke<T>(Func<T> lambda)
-    // {
-    //     return Task.FromResult(lambda.Invoke());
-    // }
 }
