@@ -47,9 +47,10 @@ public class ThrottledExecutorTests
         var executor = new ThrottledExecutor(1);
 
         int counter = 0;
-        executor.Invoke(() => counter++);
+        var func = () => counter++;
+        executor.Invoke(func);
         
-        executor.Invoking(e => e.Invoke(() => counter++))
+        executor.Invoking(e => e.Invoke(func))
             .Should().Throw<ApplicationException>();
         counter.Should().Be(1);
     }
