@@ -42,10 +42,9 @@ public class ThrottledExecutorTests
     
     
     [Fact]
-    public void Invoke_FunctionIsExecutedNoMoreThanOnce()
+    public void Invoke_FunctionIsExecutedNoMoreThanOnce_WhenThresholdIsOne()
     {
-        int threshold = 1;
-        var executor = new ThrottledExecutor(threshold);
+        var executor = new ThrottledExecutor(1);
 
         int counter = 0;
         executor.Invoke(() => counter++);
