@@ -1,9 +1,18 @@
 ﻿namespace TestProject1;
 
-public class ThrottledExecutor{
-    public Task Invoke(Action lambda)
+public class ThrottledExecutor {
+    public void Invoke(Action lambda)
     {
         lambda.Invoke();
-        return Task.CompletedTask;
     }
+    
+    public int Invoke(Func<int> lambda)
+    {
+        return lambda.Invoke();
+    }
+    
+    // public Task<T> Invoke<T>(Func<T> lambda)
+    // {
+    //     return Task.FromResult(lambda.Invoke());
+    // }
 }
