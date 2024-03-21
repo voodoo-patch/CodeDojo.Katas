@@ -53,4 +53,21 @@ public class ThrottledExecutorTests
             .Should().Throw<ApplicationException>();
         counter.Should().Be(1);
     }
+    
+    [Fact]
+    public void Invoke_ActionIsExecutedNoMoreThanOnce_WhenThresholdIsOne()
+    {
+        var executor = new ThrottledExecutor(1);
+
+        int counter = 0;
+        Action action = () =>
+        {
+            counter++;
+            Console.WriteLine("updated");
+        };
+        executor.Invoke(action);
+        executor.Invoking(e => e.Invoke(action))
+            .Should().Throw<ApplicationException>();
+        counter.Should().Be(1);
+    }
 }

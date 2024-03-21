@@ -4,6 +4,9 @@ public class ThrottledExecutor(int threshold)
 {
     public void Invoke(Action lambda)
     {
+        if (threshold <= 0)
+            throw new ApplicationException("Can't accept requests rn");
+        threshold--;
         lambda.Invoke();
     }
 
