@@ -7,7 +7,8 @@ public class ThrottledExecutorTests
     [Fact]
     public void Invoke_ActionWithoutReturnValue()
     {
-        var executor = new ThrottledExecutor(1);
+        TestTimeProvider timeProvider = new();
+        var executor = new ThrottledExecutor(1, timeProvider);
 
         int counter = 0;
         executor.Invoke(() =>
@@ -22,7 +23,8 @@ public class ThrottledExecutorTests
     [Fact]
     public void Invoke_FunctionThatReturnsInt()
     {
-        var executor = new ThrottledExecutor(1);
+        TestTimeProvider timeProvider = new();
+        var executor = new ThrottledExecutor(1, timeProvider);
 
         int counter = executor.Invoke(() => 1);
 
@@ -32,7 +34,8 @@ public class ThrottledExecutorTests
     [Fact]
     public void Invoke_FunctionThatReturnsString()
     {
-        var executor = new ThrottledExecutor(1);
+        TestTimeProvider timeProvider = new();
+        var executor = new ThrottledExecutor(1, timeProvider);
 
         string result = executor.Invoke(() => "a string");
 
@@ -42,7 +45,8 @@ public class ThrottledExecutorTests
     [Fact]
     public void Invoke_FunctionIsExecutedNoMoreThanOnce_WhenThresholdIsOne()
     {
-        var executor = new ThrottledExecutor(1);
+        TestTimeProvider timeProvider = new();
+        var executor = new ThrottledExecutor(1, timeProvider);
 
         int counter = 0;
         var func = () => counter++;
@@ -56,7 +60,8 @@ public class ThrottledExecutorTests
     [Fact]
     public void Invoke_ActionIsExecutedNoMoreThanOnce_WhenThresholdIsOne()
     {
-        var executor = new ThrottledExecutor(1);
+        TestTimeProvider timeProvider = new();
+        var executor = new ThrottledExecutor(1, timeProvider);
 
         int counter = 0;
         Action action = () =>
@@ -69,4 +74,32 @@ public class ThrottledExecutorTests
             .Should().Throw<ApplicationException>();
         counter.Should().Be(1);
     }
+    
+    [Fact]
+    public void Invoke_FunctionIsExecutedMoreThanOnce_WhenThresholdIsOne_AndWindowExpired()
+    {
+        TestTimeProvider timeProvider = new();
+        var executor = new ThrottledExecutor(1, timeProvider);
+
+        int counter = 0;
+        var func = () => counter++;
+        executor.Invoke(func);
+        
+        timeProvider.SetCurrentTime(timeProvider.GetUtcNow() + TimeSpan.FromSeconds(5));
+        executor.Invoke(func);
+        counter.Should().Be(2);
+    }
+}
+
+public class TestTimeProvider : TimeProvider
+{
+    private DateTimeOffset _currentDateTime = 
+        new(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
+
+    public void SetCurrentTime(DateTimeOffset date)
+    {
+        _currentDateTime = date;
+    }
+
+    public override DateTimeOffset GetUtcNow() => _currentDateTime;
 }
