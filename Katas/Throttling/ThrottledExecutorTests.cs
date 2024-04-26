@@ -14,7 +14,6 @@ public class ThrottledExecutorTests
         executor.Invoke(() =>
         {
             counter++;
-            Console.WriteLine("updated");
         });
 
         counter.Should().Be(1);
@@ -67,7 +66,6 @@ public class ThrottledExecutorTests
         Action action = () =>
         {
             counter++;
-            Console.WriteLine("updated");
         };
         executor.Invoke(action);
         executor.Invoking(e => e.Invoke(action))
@@ -87,6 +85,24 @@ public class ThrottledExecutorTests
         
         timeProvider.SetCurrentTime(timeProvider.GetUtcNow() + TimeSpan.FromSeconds(5));
         executor.Invoke(func);
+        counter.Should().Be(2);
+    }
+    
+    [Fact]
+    public void Invoke_ActionIsExecutedMoreThanOnce_WhenThresholdIsOne_AndWindowExpired()
+    {
+        TestTimeProvider timeProvider = new();
+        var executor = new ThrottledExecutor(1, timeProvider);
+
+        int counter = 0;
+        Action action = () =>
+        {
+            counter++;
+        };
+        executor.Invoke(action);
+        
+        timeProvider.SetCurrentTime(timeProvider.GetUtcNow() + TimeSpan.FromSeconds(5));
+        executor.Invoke(action);
         counter.Should().Be(2);
     }
 }
