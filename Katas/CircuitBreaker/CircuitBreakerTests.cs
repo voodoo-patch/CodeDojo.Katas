@@ -1,5 +1,3 @@
-using FluentAssertions;
-
 namespace CodeDojo.Katas.CircuitBreaker;
 
 public class CircuitBreakerTests

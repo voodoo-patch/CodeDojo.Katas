@@ -1,5 +1,3 @@
-using FluentAssertions;
-
 namespace CodeDojo.Katas.Throttling;
 
 public class ThrottledExecutorTests
