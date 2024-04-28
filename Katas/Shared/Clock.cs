@@ -8,7 +8,7 @@ public class Clock : IDisposable
     public static DateTime Now
     {
         get
-        { 
+        {
             if (_nowForTest == null)
             {
                 return DateTime.Now;

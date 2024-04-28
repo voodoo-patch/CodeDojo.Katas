@@ -18,7 +18,7 @@ public class ThrottledExecutorTests
 
         counter.Should().Be(1);
     }
-    
+
     [Fact]
     public void Invoke_FunctionThatReturnsInt()
     {
@@ -29,7 +29,7 @@ public class ThrottledExecutorTests
 
         counter.Should().Be(1);
     }
-    
+
     [Fact]
     public void Invoke_FunctionThatReturnsString()
     {
@@ -40,7 +40,7 @@ public class ThrottledExecutorTests
 
         result.Should().Be("a string");
     }
-    
+
     [Fact]
     public void Invoke_FunctionIsExecutedNoMoreThanOnce_WhenThresholdIsOne()
     {
@@ -50,12 +50,12 @@ public class ThrottledExecutorTests
         int counter = 0;
         var func = () => counter++;
         executor.Invoke(func);
-        
+
         executor.Invoking(e => e.Invoke(func))
             .Should().Throw<ApplicationException>();
         counter.Should().Be(1);
     }
-    
+
     [Fact]
     public void Invoke_ActionIsExecutedNoMoreThanOnce_WhenThresholdIsOne()
     {
@@ -72,7 +72,7 @@ public class ThrottledExecutorTests
             .Should().Throw<ApplicationException>();
         counter.Should().Be(1);
     }
-    
+
     [Fact]
     public void Invoke_FunctionIsExecutedMoreThanOnce_WhenThresholdIsOne_AndWindowExpired()
     {
@@ -82,12 +82,12 @@ public class ThrottledExecutorTests
         int counter = 0;
         var func = () => counter++;
         executor.Invoke(func);
-        
+
         timeProvider.SetCurrentTime(timeProvider.GetUtcNow() + TimeSpan.FromSeconds(5));
         executor.Invoke(func);
         counter.Should().Be(2);
     }
-    
+
     [Fact]
     public void Invoke_ActionIsExecutedMoreThanOnce_WhenThresholdIsOne_AndWindowExpired()
     {
@@ -100,7 +100,7 @@ public class ThrottledExecutorTests
             counter++;
         };
         executor.Invoke(action);
-        
+
         timeProvider.SetCurrentTime(timeProvider.GetUtcNow() + TimeSpan.FromSeconds(5));
         executor.Invoke(action);
         counter.Should().Be(2);
@@ -109,7 +109,7 @@ public class ThrottledExecutorTests
 
 public class TestTimeProvider : TimeProvider
 {
-    private DateTimeOffset _currentDateTime = 
+    private DateTimeOffset _currentDateTime =
         new(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
     public void SetCurrentTime(DateTimeOffset date)

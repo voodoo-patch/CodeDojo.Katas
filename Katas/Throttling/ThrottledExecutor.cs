@@ -11,7 +11,7 @@ public class ThrottledExecutor(int threshold, TimeProvider timeProvider)
         CheckAndDecreaseThreshold();
         lambda.Invoke();
     }
-    
+
     public T Invoke<T>(Func<T> lambda)
     {
         CheckAndDecreaseThreshold();
@@ -21,10 +21,10 @@ public class ThrottledExecutor(int threshold, TimeProvider timeProvider)
     private void CheckAndDecreaseThreshold()
     {
         ResetWindowIfExpired();
-        
+
         if (_threshold <= 0)
             throw new ApplicationException("Can't accept requests rn");
-        
+
         _threshold--;
     }
 
@@ -37,6 +37,6 @@ public class ThrottledExecutor(int threshold, TimeProvider timeProvider)
         }
     }
 
-    private bool IsWindowExpired() => 
+    private bool IsWindowExpired() =>
         timeProvider.GetUtcNow() >= _firstRequestInWindowTime + TimeSpan.FromSeconds(_windowSize);
 }
