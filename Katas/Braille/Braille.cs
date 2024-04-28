@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace CodeDojo.Katas.Braille;
+﻿namespace CodeDojo.Katas.Braille;
 
 public class BrailleTranslator
 {
