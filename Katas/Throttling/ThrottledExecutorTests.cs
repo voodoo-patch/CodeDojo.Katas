@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-namespace NewDay.Katas.Throttling;
+namespace CodeDojo.Katas.Throttling;
 
 public class ThrottledExecutorTests
 {

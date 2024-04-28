@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>NewDay.Katas</RootNamespace>
+        <RootNamespace>CodeDojo.Katas</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

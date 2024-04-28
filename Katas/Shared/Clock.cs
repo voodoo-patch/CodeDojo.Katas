@@ -1,4 +1,4 @@
-﻿namespace NewDay.Katas.Shared;
+﻿namespace CodeDojo.Katas.Shared;
 
 public class Clock : IDisposable
 {

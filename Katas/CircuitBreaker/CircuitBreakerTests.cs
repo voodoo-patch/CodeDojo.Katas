@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-namespace NewDay.Katas.CircuitBreaker;
+namespace CodeDojo.Katas.CircuitBreaker;
 
 public class CircuitBreakerTests
 {

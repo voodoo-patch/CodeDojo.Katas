@@ -1,4 +1,4 @@
-﻿namespace NewDay.Katas.Throttling;
+﻿namespace CodeDojo.Katas.Throttling;
 
 public class ThrottledExecutor(int threshold, TimeProvider timeProvider)
 {
