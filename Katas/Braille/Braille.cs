@@ -1,59 +1,83 @@
-﻿namespace CodeDojo.Katas.Braille;
+﻿using System.Text;
+
+namespace CodeDojo.Katas.Braille;
 
 public class BrailleTranslator
 {
-    public static string Translate(string text) =>
-        string.Join("", text
-            .Select(ch => TranslateLetter(ch.ToString())));
+    private const char BrailleSpaceLetter = '\u2800';
 
-    private static string TranslateLetter(string letter) =>
-        letter.ToLowerInvariant() switch
+    public static string Translate(string text, int wrapAt = 100)
+    {
+        int lineLength = 0;
+        var translation = new StringBuilder();
+        var word = new StringBuilder();
+        foreach (var letter in text)
         {
-            "a" => "⠁",
-            "b" => "⠃",
-            "c" => "⠉",
-            "d" => "⠙",
-            "e" => "⠑",
-            "f" => "⠋",
-            "g" => "⠛",
-            "h" => "⠓",
-            "i" => "⠊",
-            "j" => "⠚",
-            "k" => "⠅",
-            "l" => "⠇",
-            "m" => "⠍",
-            "n" => "⠝",
-            "o" => "⠕",
-            "p" => "⠏",
-            "q" => "⠟",
-            "r" => "⠗",
-            "s" => "⠎",
-            "t" => "⠞",
-            "u" => "⠥",
-            "v" => "⠧",
-            "w" => "⠺",
-            "x" => "⠭",
-            "y" => "⠽",
-            "z" => "⠵",
-            " " => "\u2800",
+            var brailleLetter = TranslateLetter(letter);
+            lineLength++;
+            bool isSpace = brailleLetter == BrailleSpaceLetter;
+            if (isSpace)
+            {
+                if (lineLength > wrapAt + 1)
+                {
+                    translation.Remove(translation.Length - 1, 1);
+                    translation.Append('\n');
+                    lineLength = word.Length + 1;
+                }
+                
+                word.Append(brailleLetter);
+                
+                translation.Append(word.ToString());
+                
+                word.Clear();
+            }
+            else
+                word.Append(brailleLetter);
+        }
+
+        if (word.Length > 0)
+        {
+            if (translation.Length > 0 &&  lineLength > wrapAt)
+            {
+                translation.Remove(translation.Length - 1, 1);
+                translation.Append('\n');
+            }
+            translation.Append(word.ToString());
+        }
+
+        return translation.ToString();
+    }
+
+    private static char TranslateLetter(char letter) =>
+        letter.ToString().ToLowerInvariant().ToCharArray()[0] switch
+        {
+            'a' => '⠁',
+            'b' => '⠃',
+            'c' => '⠉',
+            'd' => '⠙',
+            'e' => '⠑',
+            'f' => '⠋',
+            'g' => '⠛',
+            'h' => '⠓',
+            'i' => '⠊',
+            'j' => '⠚',
+            'k' => '⠅',
+            'l' => '⠇',
+            'm' => '⠍',
+            'n' => '⠝',
+            'o' => '⠕',
+            'p' => '⠏',
+            'q' => '⠟',
+            'r' => '⠗',
+            's' => '⠎',
+            't' => '⠞',
+            'u' => '⠥',
+            'v' => '⠧',
+            'w' => '⠺',
+            'x' => '⠭',
+            'y' => '⠽',
+            'z' => '⠵',
+            ' ' => BrailleSpaceLetter,
             _ => throw new ArgumentOutOfRangeException()
         };
-}
-
-public class BrailleTranslatorTests
-{
-    /*
-     * As a user
-     * When I parse a text string
-     * I can output it as braille on the screen visibly
-     */
-    [Theory]
-    [InlineData("hello", "\u2813\u2811\u2807\u2807\u2815")]
-    [InlineData("world", "\u283a\u2815\u2817\u2807\u2819")]
-    [InlineData("hello world", "\u2813\u2811\u2807\u2807\u2815\u2800\u283a\u2815\u2817\u2807\u2819")]
-    public void Translate_GivenString_ShouldOutputBraille(string text, string expectedBraille)
-    {
-        var braille = BrailleTranslator.Translate(text);
-        braille.Should().Be(expectedBraille);
-    }
 }

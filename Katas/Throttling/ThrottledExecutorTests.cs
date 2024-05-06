@@ -1,3 +1,5 @@
+using CodeDojo.Katas.Shared;
+
 namespace CodeDojo.Katas.Throttling;
 
 public class ThrottledExecutorTests
@@ -103,17 +105,4 @@ public class ThrottledExecutorTests
         executor.Invoke(action);
         counter.Should().Be(2);
     }
-}
-
-public class TestTimeProvider : TimeProvider
-{
-    private DateTimeOffset _currentDateTime =
-        new(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
-
-    public void SetCurrentTime(DateTimeOffset date)
-    {
-        _currentDateTime = date;
-    }
-
-    public override DateTimeOffset GetUtcNow() => _currentDateTime;
 }
